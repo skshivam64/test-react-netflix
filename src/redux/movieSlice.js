@@ -4,21 +4,34 @@ import axios from "axios";
 
 // Define initial state
 const initialState = {
-    data: [],
-    status: "idle",
-    id: null,
+    movies: [],
+    statusMovies: "idle",
+    selectedMovie: {},
+    statusSelectedMovie: "idle",
+    selectedMovieId: null,
 };
 
 // Create async thunk for fetching data (GET request)
-export const fetchData = createAsyncThunk("movie/fetchData", async (id) => {
+export const fetchOneMovie = createAsyncThunk(
+    "movie/fetchOneMovie",
+    async (id) => {
+        const API_KEY = "30560503a2bf2603ab571c72b800a94d";
+        const URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
+        const response = await axios.get(URL);
+        return response.data;
+    }
+);
+
+export const fetchMovies = createAsyncThunk("movie/fetchMovies", async (id) => {
     const API_KEY = "30560503a2bf2603ab571c72b800a94d";
-    const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
-    );
-    return response.data;
+    const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+
+    const response = await axios.get(URL);
+    console.log("Movies = ", response);
+    return response.data.results;
 });
 
-export const addMovie = createAsyncThunk("movie/addMovie", async (id) => {
+export const selectMovie = createAsyncThunk("movie/addMovie", async (id) => {
     return id;
 });
 
@@ -29,18 +42,22 @@ const movieSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchData.pending, (state) => {
-                state.status = "loading";
+            .addCase(fetchOneMovie.pending, (state) => {
+                state.statusSelectedMovie = "loading";
             })
-            .addCase(fetchData.fulfilled, (state, action) => {
-                state.status = "succeeded";
-                state.data = action.payload;
+            .addCase(fetchOneMovie.fulfilled, (state, action) => {
+                state.statusSelectedMovie = "succeeded";
+                state.selectedMovie = action.payload;
             })
-            .addCase(fetchData.rejected, (state) => {
-                state.status = "failed";
+            .addCase(fetchOneMovie.rejected, (state) => {
+                state.statusSelectedMovie = "failed";
             })
-            .addCase(addMovie.fulfilled, (state, action) => {
-                state.id = action.payload;
+            .addCase(selectMovie.fulfilled, (state, action) => {
+                state.selectedMovieId = action.payload;
+            })
+            .addCase(fetchMovies.fulfilled, (state, action) => {
+                state.statusMovies = "succeeded";
+                state.movies = action.payload;
             });
     },
 });
