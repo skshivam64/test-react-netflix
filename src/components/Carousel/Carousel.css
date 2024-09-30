@@ -1,0 +1,41 @@
+h2 {
+    padding: 30px;
+    position: relative;
+    z-index: 100;
+}
+
+.carousel {
+    position: relative;
+    padding: 100px 40px;
+    background-color: #141414; /* Netflix dark background */
+    color: #fff;
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: visible;
+    z-index: 100;
+}
+
+.card {
+    margin: 0 10px;
+    min-width: 200px;
+    width: 200px;
+    background-color: #141414;
+    z-index: 200;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.card h3 {
+    text-align: center;
+    font-size: 16px;
+}
+
+.zoomed {
+    scale: 1.4;
+    box-shadow: 0 0 1px #fff;
+    z-index: 300;
+}

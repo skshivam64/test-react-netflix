@@ -1,0 +1,9 @@
+.info-container {
+    min-width: 720px;
+    min-height: 2040px;
+    position: absolute;
+    left: calc(50% - 360px);
+    top: 0;
+    z-index: 500;
+    background-color: green;
+}
