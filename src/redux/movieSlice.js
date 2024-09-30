@@ -27,7 +27,6 @@ export const fetchMovies = createAsyncThunk("movie/fetchMovies", async (id) => {
     const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
 
     const response = await axios.get(URL);
-    console.log("Movies = ", response);
     return response.data.results;
 });
 

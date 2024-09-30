@@ -19,19 +19,21 @@ const Info = () => {
     console.log(movie);
     return (
         <div>
-            <div className="info-container" style={{}}>
-                {status === "loading" && <h2>Loading...</h2>}
-                {status === "succeeded" && (
-                    <div>
-                        <h2>{movie.original_title}</h2>
-                        <img
-                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                            alt={movie.original_title}
-                        />
-                    </div>
-                )}
-                {status === "failed" && <h2>Loading...</h2>}
-            </div>
+            {status !== "idle" && (
+                <div className="info-container">
+                    {status === "loading" && <h2>Loading...</h2>}
+                    {status === "succeeded" && (
+                        <div>
+                            <h2>{movie.original_title}</h2>
+                            <img
+                                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                alt={movie.original_title}
+                            />
+                        </div>
+                    )}
+                    {status === "failed" && <h2>Failed to get data...</h2>}
+                </div>
+            )}
         </div>
     );
 };
